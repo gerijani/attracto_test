@@ -1,6 +1,6 @@
 # Ingatlan Marketplace Terraform Infrastruktúra
 
-Ez a projekt egy egyszerű Kubernetes-alapú infrastruktúrát hoz létre az Azure felhőben egy ingatlan marketplace platform számára. Az infrastruktúra a következő komponensekből áll:
+Ez a projekt egy egyszerű Kubernetes-alapú infrastruktúrát hoz létre az Azure felhőben egy ingatlan-piac platform számára. Az infrastruktúra a következő komponensekből áll:
 
 - Azure AKS (Azure Kubernetes Service) klaszter
 - Azure SQL adatbázis
@@ -64,7 +64,7 @@ az storage container create --name tfstate --account-name realestateterraformsta
 
 ### 2. Változók konfigurálása
 
-A `terraform.tfvars` file szolgál a változók értékeinek megadására. Minden változó érték terraform szabályok alapján felüldefiniálható adott modul variables.tf filejában.
+A `terraform.tfvars` file szolgál a változók értékeinek megadására. Minden változó érték terraform szabályok alapján felüldefiniálható itt az adott modul variables.tf filejában lévő default értékhez képest (amennyiben van ilyen).
 
 ### 3. Terraform inicializálása és futtatása
 
@@ -104,8 +104,8 @@ http://<nginx_gateway_external_ip>/api/
 
 ## Bővítési lehetőségek
 
+- Secret kezelés Hashicorp Vault vagy Azure KeyVault használatával
 - Több node hozzáadása a skálázáshoz
-- CI/CD pipeline integrációja
 - Monitoring és naplózás hozzáadása
 - SSL/TLS konfiguráció az HTTPS-hez
 - Service mesh implementálása
