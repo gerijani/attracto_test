@@ -22,12 +22,6 @@ Ez a projekt egy egyszerű Kubernetes-alapú infrastruktúrát hoz létre az Azu
 ├── variables.tf               # Root változók
 ├── terraform.tfvars           # Input változók
 ├── output.tf
-├── app/                       # Kubernetes deployment manifests
-│   ├── backend-deployment.yaml
-│   ├── backend-service.yaml
-│   ├── frontend-deployment.yaml
-│   ├── frontend-service.yaml
-│   └── db-connection-secret.yaml
 ├── modules/
 │   ├── aks/                   # AKS klaszter modul
 │   │   ├── main.tf
@@ -46,8 +40,9 @@ Ez a projekt egy egyszerű Kubernetes-alapú infrastruktúrát hoz létre az Azu
 |   ├── backend/
 |   |   └── Dockerfile         # .NET Backend Dockerfile
 |   ├── frontend/
-    |   └── Dockerfile         # React Frontend Dockerfile
-|   └── azure-pipelines.yml    # Azure DevOps CI/CD pipeline
+|   |   └── Dockerfile         # React Frontend Dockerfile
+|   ├── azure-pipelines.yml    # Azure DevOps CI/CD pipeline
+|   └── nginx.conf             # NGINX Ingress configmap
 ```
 
 ## Használati útmutató
@@ -115,7 +110,7 @@ http://<nginx_gateway_external_ip>/api/
 
 - Secret kezelés Hashicorp Vault vagy Azure KeyVault használatával
 - Több node hozzáadása a skálázáshoz
-- Monitoring és naplózás hozzáadása
+- Monitoring és naplózás hozzáadása pl. kube-prometeus-stack vagy Azure Monitor-ba bekötéssel
 - SSL/TLS konfiguráció az HTTPS-hez
 - Service mesh implementálása
 - Horizontális Pod Autoscaler (HPA) konfigurálása
@@ -124,7 +119,8 @@ http://<nginx_gateway_external_ip>/api/
 ## Megjegyzés:
 
 - Teszt alkalmazás build és deploy nem volt futtatva. (Csak leszettem egy GitHub publikus repo-ból)
-- Az Azure pipeline variables szakaszban lévő értékek és az azure-credentials csoport definiálható illetve biztonságosan tárolható a projekt beállításai alatt a "Library" -ben. Íly módon az Azure-hoz való kapcsolódáshoz szükséges hitelesítési adatokat, például:
+- Az infra deploymenthez 
+- Az Azure pipeline _{ variables }_ szakaszban lévő értékek és az azure-credentials csoport még nem lett beállítva, de ADS-ben a projekt Pipelines beállításai alatti "Library" -ben felvehetők a szükséges változók, amiket aztán a pipeline automatikusan fel tud oldani. Íly módon az Azure-hoz való kapcsolódáshoz szükséges hitelesítési adatok is biztonságosan tárolhatók, mint például:
 
     * Service Principal ID
     * Service Principal titkos kulcsa
