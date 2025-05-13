@@ -9,7 +9,7 @@ resource "azurerm_virtual_network" "aks" {
 }
 
 resource "azurerm_subnet" "aks" {
-  name                 = "${var.project_name}-${var.environment}-subnet"
+  name                 = "${var.project_name}-${var.environment}-aks-subnet"
   resource_group_name  = var.resource_group_name
   virtual_network_name = azurerm_virtual_network.aks.name
   address_prefixes     = ["10.0.1.0/24"]
@@ -39,6 +39,8 @@ resource "azurerm_kubernetes_cluster" "aks" {
   network_profile {
     network_plugin    = "azure"
     load_balancer_sku = "standard"
+    service_cidr      = "172.16.0.0/16"
+    dns_service_ip    = "172.16.0.10"
   }
 
   tags = var.tags

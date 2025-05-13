@@ -21,9 +21,8 @@ resource "azurerm_mssql_server" "server" {
 resource "azurerm_mssql_database" "database" {
   name                = "${var.project_name}-${var.environment}-db"
   server_id           = azurerm_mssql_server.server.id
-  sku_name  = var.database_sku
-
-  max_size_gb         = 4
+  sku_name            = var.database_sku
+  
   zone_redundant      = false
 
   tags = var.tags

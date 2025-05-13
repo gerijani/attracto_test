@@ -29,7 +29,7 @@ variable "admin_password" {
 
 variable "database_sku" {
   type        = string
-  default     = "S0"
+  default     = "Basic"
 }
 
 variable "tags" {
