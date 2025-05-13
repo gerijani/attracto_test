@@ -1,29 +1,31 @@
-# Build fázis átmeneti image
-# A build fázisban a node:18-alpine image-t használjuk
-# A node:18-alpine image egy kicsi, könnyű image, amely tartalmazza a Node.js 18-as verzióját
+# Use the official Node.js base image
 FROM node:18-alpine as build
 
+# Set the working directory
 WORKDIR /app
 
-# Package fájlok másolása és függőségek telepítése
-COPY package.json package-lock.json ./
-RUN npm ci
+# Copy package.json and package-lock.json files
+COPY package*.json ./
 
-# Forráskód másolása és build
+# Install dependencies
+RUN npm install
+
+# Copy the rest of the application code
 COPY . .
+
+# Build the React app
+ARG REACT_APP_API_URL
+ENV REACT_APP_API_URL=$REACT_APP_API_URL
 RUN npm run build
 
-# Futtatási image készítése
-# Az nginx image használata a buildelt fájlok kiszolgálására
-# A buildelt fájlok kiszolgálásához nginx image használata
-FROM nginx:alpine
+# Install serve globally to serve the build folder
+RUN npm install -g serve
 
-# Build másolása az nginx szerverbe
+FROM nginx:alpine
 COPY --from=build /app/build /usr/share/nginx/html
 
-# Nginx konfiguráció beállítása SPA alkalmazáshoz
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
+# Expose the port the app runs on
 EXPOSE 80
 
-CMD ["nginx", "-g", "daemon off;"]
+# Start the React app
+CMD ["nginx", "-g", "deamon off;"]

@@ -45,7 +45,7 @@ stages:
     # React Frontend Build
     - task: NodeTool@0
       inputs:
-        versionSpec: '16.x'
+        versionSpec: '18.x'
       displayName: 'Install Node.js'
     
     - script: |
@@ -60,7 +60,7 @@ stages:
       inputs:
         targetType: 'inline'
         script: |
-          docker build -t $(containerRegistry)/dotnet-backend:$(tag) -f **/Dockerfile.backend .
+          docker build -t $(containerRegistry)/dotnet-backend:$(tag) -f **/backend/Dockerfile .
           docker push $(containerRegistry)/dotnet-backend:$(tag)
     
     - task: PowerShell@2
@@ -68,7 +68,7 @@ stages:
       inputs:
         targetType: 'inline'
         script: |
-          docker build -t $(containerRegistry)/react-frontend:$(tag) -f **/Dockerfile.frontend .
+          docker build -t $(containerRegistry)/react-frontend:$(tag) -f **/frontend/Dockerfile .
           docker push $(containerRegistry)/react-frontend:$(tag)
 
 - stage: Deploy
@@ -95,7 +95,7 @@ stages:
               kubernetesCluster: '$(aksClusterName)'
               namespace: 'default'
               command: 'apply'
-              arguments: '-f $(System.ArtifactsDirectory)/k8s/nginx-configmap.yaml'
+              arguments: '-f $(System.ArtifactsDirectory)/nginx.conf'
           
           - task: Kubernetes@1
             displayName: 'Deploy to Kubernetes'
@@ -106,4 +106,4 @@ stages:
               kubernetesCluster: '$(aksClusterName)'
               namespace: 'default'
               command: 'apply'
-              arguments: '-f $(System.ArtifactsDirectory)/k8s/*.yaml'
+              arguments: '-f $(System.ArtifactsDirectory)/app/*.yaml'

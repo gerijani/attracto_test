@@ -110,6 +110,7 @@ Az API végpontok a következő URL-en lesznek elérhetők:
 http://<nginx_gateway_external_ip>/api/
 ```
 
+
 ## Bővítési lehetőségek
 
 - Secret kezelés Hashicorp Vault vagy Azure KeyVault használatával
@@ -119,12 +120,14 @@ http://<nginx_gateway_external_ip>/api/
 - Service mesh implementálása
 - Horizontális Pod Autoscaler (HPA) konfigurálása
 
-## Tisztítás
 
-Az infrastruktúra törléséhez futtassa a következő parancsot:
+## Megjegyzés:
 
-```bash
-terraform destroy
-```
+- Teszt alkalmazás build és deploy nem volt futtatva. (Csak leszettem egy GitHub publikus repo-ból)
+- Az Azure pipeline variables szakaszban lévő értékek és az azure-credentials csoport definiálható illetve biztonságosan tárolható a projekt beállításai alatt a "Library" -ben. Íly módon az Azure-hoz való kapcsolódáshoz szükséges hitelesítési adatokat, például:
 
-Ez eltávolítja az összes létrehozott erőforrást az Azure-ból.
+    * Service Principal ID
+    * Service Principal titkos kulcsa
+    * Tenant ID
+    * Subscription ID
+    * Egyéb Azure-specifikus beállítások

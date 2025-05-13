@@ -1,27 +1,27 @@
-# Build fázis átmeneti image
-# A build fázisban a dotnet/sdk:7.0 image-t használjuk
-# A dotnet/sdk:7.0 image tartalmazza a .NET SDK 7.0 verzióját
-FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
-WORKDIR /source
+# Use the official .NET Core SDK as a parent image
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 
-# Restore csomagok
-COPY *.csproj .
+WORKDIR /app
+
+# Copy the project file and restore any dependencies (use .csproj for the project name)
+COPY *.csproj ./
+
 RUN dotnet restore
 
-# Másolás és publikálás
+# Copy the rest of the application code
 COPY . .
-RUN dotnet publish -c Release -o /app
 
-# Futtatási image készítése
-# A dotnet/aspnet:7.0 image használata a buildelt fájlok futtatására
-FROM mcr.microsoft.com/dotnet/aspnet:7.0
+# Publish the application
+RUN dotnet publish -c Release -o out
+
+# Build the runtime image
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS runtime
+
 WORKDIR /app
-COPY --from=build /app ./
+COPY --from=build /app/out ./
 
-# Környezeti változók
-ENV ASPNETCORE_URLS=http://+:80
-ENV ASPNETCORE_ENVIRONMENT=Production
-
+# Expose the port your application will run on
 EXPOSE 80
 
-ENTRYPOINT ["dotnet", "MyBackendApp.dll"]
+# Start the application
+ENTRYPOINT ["dotnet", "ProductManagementAPI.dll"]

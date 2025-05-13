@@ -1,5 +1,5 @@
-subscription_id = "******************************"  # Valós Azure előfizetés ID - nem feltétel, ha volt 'az login'
-tenant_id       = "*******************************" # Valós Azure tenant ID - nem feltétel, ha volt 'az login'
+subscription_id = "d03e9d7a-344d-4098-b051-c983158282d2"
+tenant_id       = "54edc04e-508c-46c0-8318-d265208b03a4"
 project_name = "realestate-marketplace"
 location     = "West Europe"
 
