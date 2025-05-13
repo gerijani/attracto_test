@@ -31,12 +31,10 @@ Ez a projekt egy egyszerű Kubernetes-alapú infrastruktúrát hoz létre az Azu
 │   └── nginx-ingress/         # Nginx Ingress gateway module
 │       ├── main.tf
 │       └── variables.tf
-├── k8s/                       # Kubernetes deployment manifests
-│   ├── backend-deployment.yaml
-│   ├── backend-service.yaml
-│   ├── frontend-deployment.yaml
-│   ├── frontend-service.yaml
-│   └── db-connection-secret.yaml
+├── app/                       # Kubernetes deployment manifests
+│   ├── backend.yaml
+│   ├── frontend.yaml
+│   └── db-secret.yaml
 ├── Dockerfile.backend         # .NET Backend Dockerfile
 ├── Dockerfile.frontend        # React Frontend Dockerfile
 └── azure-pipelines.yml        # Azure DevOps CI/CD pipeline
