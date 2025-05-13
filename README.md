@@ -6,7 +6,7 @@ Ez a projekt egy egyszerű Kubernetes-alapú infrastruktúrát hoz létre az Azu
 - Azure SQL adatbázis
 - .NET Backend alkalmazás
 - React Frontend alkalmazás
-- Nginx Gateway a forgalom irányításához
+- Nginx Ingress Gateway a forgalom irányításához
 
 ## Előfeltételek
 
@@ -21,6 +21,13 @@ Ez a projekt egy egyszerű Kubernetes-alapú infrastruktúrát hoz létre az Azu
 ├── main.tf                    # Terraform root konfig
 ├── variables.tf               # Root változók
 ├── terraform.tfvars           # Input változók
+├── output.tf
+├── app/                       # Kubernetes deployment manifests
+│   ├── backend-deployment.yaml
+│   ├── backend-service.yaml
+│   ├── frontend-deployment.yaml
+│   ├── frontend-service.yaml
+│   └── db-connection-secret.yaml
 ├── modules/
 │   ├── aks/                   # AKS klaszter modul
 │   │   ├── main.tf
@@ -35,9 +42,12 @@ Ez a projekt egy egyszerű Kubernetes-alapú infrastruktúrát hoz létre az Azu
 │   ├── backend.yaml
 │   ├── frontend.yaml
 │   └── db-secret.yaml
-├── Dockerfile.backend         # .NET Backend Dockerfile
-├── Dockerfile.frontend        # React Frontend Dockerfile
-└── azure-pipelines.yml        # Azure DevOps CI/CD pipeline
+├── pipeline/
+|   ├── backend/
+|   |   └── Dockerfile         # .NET Backend Dockerfile
+|   ├── frontend/
+    |   └── Dockerfile         # React Frontend Dockerfile
+|   └── azure-pipelines.yml    # Azure DevOps CI/CD pipeline
 ```
 
 ## Használati útmutató
